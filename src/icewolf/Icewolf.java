@@ -41,7 +41,7 @@ public class Icewolf extends Application {
         javafx.scene.web.WebView root = new javafx.scene.web.WebView();
         
         javafx.scene.control.TextField url =
-                new javafx.scene.control.TextField("smsu.edu");
+                new javafx.scene.control.TextField(IWPropertyHelper.getProperty("default_homepage"));
         url.setStyle("-fx-pref-width: 700px;");
         //root.setStyle("-fx-pref-width: 780; -fx-pref-height: 530;");
         root.setStyle("-fx-pref-width: 780; -fx-pref-height: 1530;");
