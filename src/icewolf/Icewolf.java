@@ -56,14 +56,12 @@ public class Icewolf extends Application {
         hbox.getChildren().addAll(httplabel, url);
         vbox.getChildren().addAll(menuBar, hbox, root);
         
-        primaryStage.setTitle("Super Simple Web Browser");
+        //primaryStage.setTitle("Super Simple Web Browser");
+        primaryStage.setTitle(IWPropertyHelper.getProperty("default_window_title"));
         primaryStage.setScene(new javafx.scene.Scene(vbox, 800, 600));
         primaryStage.show();
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         launch(args);
     }

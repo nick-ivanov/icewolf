@@ -71,4 +71,9 @@ public class IWPropertyHelperTest {
             fail("The properties file is a directory, not a regular file.");
         }
     }
+    
+    @Test
+    public void testNumberOfProperties() {
+        assertEquals(IWPropertyHelper.getPropertySet().size(), 4);
+    }
 }

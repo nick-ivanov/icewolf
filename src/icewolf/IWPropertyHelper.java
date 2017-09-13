@@ -18,6 +18,7 @@ package icewolf;
 
 import java.util.*;
 import java.io.*;
+import java.util.Map.Entry;
 
 public class IWPropertyHelper {
     final static String PROPERTY_FILEPATH = "src/icewolf/application.properties";
@@ -28,6 +29,20 @@ public class IWPropertyHelper {
             Properties propertiesObj = new Properties();
             propertiesObj.load(reader);
             return propertiesObj.getProperty(property);
+        } catch (Exception ex) {
+            System.out.println("FATAL ERROR: " + ex.getMessage());
+            System.exit(1);
+        }
+        
+        return null;
+    }
+    
+        static Set<Entry<Object,Object>> getPropertySet() {
+        try {
+            FileReader reader = new FileReader(PROPERTY_FILEPATH);
+            Properties propertiesObj = new Properties();
+            propertiesObj.load(reader);
+            return propertiesObj.entrySet();
         } catch (Exception ex) {
             System.out.println("FATAL ERROR: " + ex.getMessage());
             System.exit(1);
