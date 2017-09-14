@@ -25,22 +25,31 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 public class IWMenuBar extends MenuBar {
-	final Menu menu1 = new Menu("Menu");
-	final Menu menu2 = new Menu("Help");
+        TextField urlTextField, searchTextField;
+        WebView webView;
+        
+	final Menu main_menu = new Menu("Menu");
+	final Menu help_menu = new Menu("Help");
 	
+        final MenuItem sample_module = new MenuItem("Sample Module");
 	final MenuItem quit_item = new MenuItem("Quit");
+        
 	final MenuItem manual_item = new MenuItem("Manual");
 	final MenuItem about_item = new MenuItem("About");
-	
-	//HelpWindow hw = new HelpWindow();
-	
-	public IWMenuBar(Stage stage) {
-		menu1.getItems().add(quit_item);
-		menu2.getItems().addAll(manual_item, about_item);
-		this.getMenus().addAll(menu1, menu2);
+		
+	public IWMenuBar(Stage stage, TextField urlTextField, TextField searchTextField, WebView webView) {
+                this.urlTextField = urlTextField;
+                this.searchTextField = searchTextField;
+                this.webView = webView;
+                
+		main_menu.getItems().addAll(sample_module, quit_item);
+		help_menu.getItems().addAll(manual_item, about_item);
+		this.getMenus().addAll(main_menu, help_menu);
 		
 		setEvents(stage);
 	}
@@ -51,7 +60,10 @@ public class IWMenuBar extends MenuBar {
 			public void handle(ActionEvent ae) {
 				String name = ((MenuItem)ae.getTarget()).getText();
 				
+                                System.out.println("name: " + name);
+                                
 				if(name.equals("Quit")) { Platform.exit(); }
+                                
 				if(name.equals("Manual")) {
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle(IWPropertyHelper.getProperty("application_name") + " Help");
@@ -60,6 +72,7 @@ public class IWMenuBar extends MenuBar {
 					alert.setContentText(content);
 					alert.showAndWait();
 				}
+                                
 				if(name.equals("About")) {
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("About " + IWPropertyHelper.getProperty("application_name"));
@@ -69,13 +82,16 @@ public class IWMenuBar extends MenuBar {
 					alert.setContentText(content);
 					alert.showAndWait();
 				}
-				
-				// hw.setText(name + " chosen");
+                                
+                                if(name.equals("Sample Module")) {
+                                    IWSampleModule sampleModule = new IWSampleModule(stage, urlTextField, searchTextField, webView);
+                                }				
 			}
 		};
 		
 		quit_item.setOnAction(MEHandler);
 		manual_item.setOnAction(MEHandler);
 		about_item.setOnAction(MEHandler);
+                sample_module.setOnAction(MEHandler);
 	}
 }

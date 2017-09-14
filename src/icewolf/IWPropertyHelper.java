@@ -37,7 +37,7 @@ public class IWPropertyHelper {
         return null;
     }
     
-        static Set<Entry<Object,Object>> getPropertySet() {
+    static Set<Entry<Object,Object>> getPropertySet() {
         try {
             FileReader reader = new FileReader(PROPERTY_FILEPATH);
             Properties propertiesObj = new Properties();

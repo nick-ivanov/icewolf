@@ -18,15 +18,21 @@
 package icewolf;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.scene.Scene;
 //import javafx.event.ActionEvent;
 //import javafx.event.EventHandler;
 //import javafx.scene.Scene;
 //import javafx.scene.control.Button;
 //import javafx.scene.layout.StackPane;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.stage.Stage;
+import javafx.scene.web.WebView;
 
 public class Icewolf extends Application {
-    
     @Override
     public void start(Stage primaryStage) {
         javafx.scene.layout.VBox vbox = new javafx.scene.layout.VBox();
@@ -34,31 +40,43 @@ public class Icewolf extends Application {
         javafx.scene.layout.HBox hbox = new javafx.scene.layout.HBox(); 
         hbox.setStyle("-fx-padding: 10px;-fx-alignment: baseline-center;");
         
-        IWMenuBar menuBar = new IWMenuBar(primaryStage);
         
-        javafx.scene.control.Label httplabel =
-                new javafx.scene.control.Label("http:// ");
-        javafx.scene.web.WebView root = new javafx.scene.web.WebView();
+        Label httpLabel = new Label("http:// ");
+        TextField urlTextField = new TextField(IWPropertyHelper.getProperty("default_homepage"));
         
-        javafx.scene.control.TextField url =
-                new javafx.scene.control.TextField(IWPropertyHelper.getProperty("default_homepage"));
-        url.setStyle("-fx-pref-width: 700px;");
+        Separator inputBarSeparator = new Separator();
+        inputBarSeparator.setOrientation(Orientation.VERTICAL);
+        inputBarSeparator.setPadding(new Insets(0, 10, 0, 10));
+        
+        Label searchLabel = new Label("Search: ");
+        TextField searchTextField = new TextField();
+        
+        WebView mainWebView = new WebView();
+        
+        urlTextField.setStyle("-fx-pref-width: 300px;");
+        searchTextField.setStyle("-fx-pref-width: 300px;");
+        
         //root.setStyle("-fx-pref-width: 780; -fx-pref-height: 530;");
-        root.setStyle("-fx-pref-width: 780; -fx-pref-height: 1530;");
-        root.getEngine().load(java.net.URI.create
-                ("http://" + url.getText()).toString());
+        mainWebView.setStyle("-fx-pref-width: 780; -fx-pref-height: 1530;");
+        mainWebView.getEngine().load(java.net.URI.create
+                ("http://" + urlTextField.getText()).toString());
 
-        url.setOnAction((event) -> {
-            root.getEngine().load(java.net.URI.create
-                    ("http://" + url.getText()).toString());
+        urlTextField.setOnAction((event) -> {
+            mainWebView.getEngine().load(java.net.URI.create
+                    ("http://" + urlTextField.getText()).toString());
         });
+        
+        IWMenuBar menuBar = new IWMenuBar(primaryStage, urlTextField, searchTextField, mainWebView);
 
-        hbox.getChildren().addAll(httplabel, url);
-        vbox.getChildren().addAll(menuBar, hbox, root);
+        hbox.getChildren().addAll(httpLabel, urlTextField, inputBarSeparator, searchLabel, searchTextField);
+        vbox.getChildren().addAll(menuBar, hbox, mainWebView);
         
         //primaryStage.setTitle("Super Simple Web Browser");
         primaryStage.setTitle(IWPropertyHelper.getProperty("default_window_title"));
-        primaryStage.setScene(new javafx.scene.Scene(vbox, 800, 600));
+        Scene scene = new Scene(vbox, 800, 600);
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(600);
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
