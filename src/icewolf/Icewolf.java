@@ -29,6 +29,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import javafx.scene.web.WebView;
 
@@ -51,7 +53,14 @@ public class Icewolf extends Application {
         Label searchLabel = new Label("Search: ");
         TextField searchTextField = new TextField();
         
+        TabPane tabPane = new TabPane();
+        Tab tab = new Tab();
+        tab.setText("Homepage");
+        
         WebView mainWebView = new WebView();
+        tab.setContent(mainWebView);
+        tab.setClosable(true);
+        tabPane.getTabs().add(tab);
         
         urlTextField.setStyle("-fx-pref-width: 300px;");
         searchTextField.setStyle("-fx-pref-width: 300px;");
@@ -69,7 +78,8 @@ public class Icewolf extends Application {
         IWMenuBar menuBar = new IWMenuBar(primaryStage, urlTextField, searchTextField, mainWebView);
 
         hbox.getChildren().addAll(httpLabel, urlTextField, inputBarSeparator, searchLabel, searchTextField);
-        vbox.getChildren().addAll(menuBar, hbox, mainWebView);
+        //vbox.getChildren().addAll(menuBar, hbox, mainWebView);
+        vbox.getChildren().addAll(menuBar, hbox, tabPane);
         
         //primaryStage.setTitle("Super Simple Web Browser");
         primaryStage.setTitle(IWPropertyHelper.getProperty("default_window_title"));
