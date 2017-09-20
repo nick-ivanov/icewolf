@@ -75,6 +75,11 @@ public class Icewolf extends Application {
                     ("http://" + urlTextField.getText()).toString());
         });
         
+        searchTextField.setOnAction((event) -> {
+            String rawSearch = "http://www.google.com/search?q=" + searchTextField.getText().toString();
+            mainWebView.getEngine().load(rawSearch.replaceAll("\\s","+"));
+        });
+        
         IWMenuBar menuBar = new IWMenuBar(primaryStage, urlTextField, searchTextField, mainWebView);
 
         hbox.getChildren().addAll(httpLabel, urlTextField, inputBarSeparator, searchLabel, searchTextField);
