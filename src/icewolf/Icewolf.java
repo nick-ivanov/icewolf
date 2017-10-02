@@ -21,12 +21,6 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
-//import javafx.event.ActionEvent;
-//import javafx.event.EventHandler;
-//import javafx.scene.Scene;
-//import javafx.scene.control.Button;
-//import javafx.scene.layout.StackPane;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Tab;
@@ -42,16 +36,12 @@ public class Icewolf extends Application {
         javafx.scene.layout.HBox hbox = new javafx.scene.layout.HBox(); 
         hbox.setStyle("-fx-padding: 10px;-fx-alignment: baseline-center;");
         
-        
         Label httpLabel = new Label("http:// ");
-        TextField urlTextField = new TextField(IWPropertyHelper.getProperty("default_homepage"));
+        Label searchLabel = new Label("Search: ");
         
         Separator inputBarSeparator = new Separator();
         inputBarSeparator.setOrientation(Orientation.VERTICAL);
         inputBarSeparator.setPadding(new Insets(0, 10, 0, 10));
-        
-        Label searchLabel = new Label("Search: ");
-        TextField searchTextField = new TextField();
         
         TabPane tabPane = new TabPane();
         Tab tab = new Tab();
@@ -62,27 +52,23 @@ public class Icewolf extends Application {
         tab.setClosable(true);
         tabPane.getTabs().add(tab);
         
-        urlTextField.setStyle("-fx-pref-width: 300px;");
-        searchTextField.setStyle("-fx-pref-width: 300px;");
+        IWSearchBox searchField = new IWSearchBox(mainWebView, 0);
+        IWURLField urlField = new IWURLField(mainWebView, false);
         
+        urlField.setStyle("-fx-pref-width: 300px;");
+        searchField.setStyle("-fx-pref-width: 300px;");
+        
+        urlField.loadPage();
         //root.setStyle("-fx-pref-width: 780; -fx-pref-height: 530;");
         mainWebView.setStyle("-fx-pref-width: 780; -fx-pref-height: 1530;");
-        mainWebView.getEngine().load(java.net.URI.create
-                ("http://" + urlTextField.getText()).toString());
 
-        urlTextField.setOnAction((event) -> {
-            mainWebView.getEngine().load(java.net.URI.create
-                    ("http://" + urlTextField.getText()).toString());
-        });
+        urlField.setOnAction((event) -> {urlField.loadPage();});
         
-        searchTextField.setOnAction((event) -> {
-            String rawSearch = "http://www.google.com/search?q=" + searchTextField.getText().toString();
-            mainWebView.getEngine().load(rawSearch.replaceAll("\\s","+"));
-        });
+        searchField.setOnAction((event) -> {searchField.search();});
         
-        IWMenuBar menuBar = new IWMenuBar(primaryStage, urlTextField, searchTextField, mainWebView);
+        IWMenuBar menuBar = new IWMenuBar(primaryStage, urlField, searchField, mainWebView);
 
-        hbox.getChildren().addAll(httpLabel, urlTextField, inputBarSeparator, searchLabel, searchTextField);
+        hbox.getChildren().addAll(httpLabel, urlField, inputBarSeparator, searchLabel, searchField);
         //vbox.getChildren().addAll(menuBar, hbox, mainWebView);
         vbox.getChildren().addAll(menuBar, hbox, tabPane);
         
