@@ -45,9 +45,9 @@ public class Icewolf extends Application {
         
         TabPane tabPane = new TabPane();
         Tab tab = new Tab();
-        tab.setText("Homepage");
         
         WebView mainWebView = new WebView();
+        tab.textProperty().bind(mainWebView.getEngine().titleProperty());
         tab.setContent(mainWebView);
         tab.setClosable(true);
         tabPane.getTabs().add(tab);
