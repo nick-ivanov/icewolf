@@ -41,11 +41,11 @@ public class IWMenuBar extends MenuBar {
         
 	final MenuItem manual_item = new MenuItem("Manual");
 	final MenuItem about_item = new MenuItem("About");
-		
-	public IWMenuBar(Stage stage, TextField urlTextField, TextField searchTextField, WebView webView) {
-                this.urlTextField = urlTextField;
-                this.searchTextField = searchTextField;
-                this.webView = webView;
+	public IWMenuBar(Stage stage) {	
+	//public IWMenuBar(Stage stage, TextField urlTextField, TextField searchTextField, WebView webView) {
+                //this.urlTextField = urlTextField;
+                //this.searchTextField = searchTextField;
+                //this.webView = webView;
                 
 		main_menu.getItems().addAll(sample_module, quit_item);
 		help_menu.getItems().addAll(manual_item, about_item);
