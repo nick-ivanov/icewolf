@@ -28,43 +28,59 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 public class IWInternetTab extends Tab {
 
-    public IWInternetTab(String webAddress, TabPane tabPane) {
-        Label searchLabel = new Label("Search: ");
+    private Label searchLabel;
+    private WebView tabWebView;
+    private IWSearchBox searchField;
+    private IWURLField urlField;
+    private Button newTabBtn;
+    private HBox hbox;
+    private BorderPane bPane;
     
-        WebView tabWebView = new WebView();
+    
+    public IWInternetTab(String webAddress, TabPane tabPane) {
+        searchLabel = new Label("Search: ");
+    
+        tabWebView = new WebView();
         textProperty().bind(tabWebView.getEngine().titleProperty());
         tabWebView.setStyle("-fx-pref-width: 780; -fx-pref-height: 1530;");
         
-        IWSearchBox searchField = new IWSearchBox(tabWebView, 0);
+        searchField = new IWSearchBox(tabWebView, 0);
         searchField.setOnAction((event) -> {searchField.search();});
         searchField.setStyle("-fx-pref-width: 260");
         
-        IWURLField urlField = new IWURLField(tabWebView, false);
+        urlField = new IWURLField(tabWebView, false);
         urlField.setOnAction((event) -> {urlField.loadPage();});
         urlField.setText(webAddress);
         urlField.loadPage();
         urlField.setStyle("-fx-pref-width: 300");
         
-        Button newTabBtn = new Button("New Tab");
+        newTabBtn = new Button("New Tab");
         newTabBtn.setOnAction((ActionEvent event) -> {
             Tab newTab = new IWInternetTab("www.smsu.edu", tabPane);
             tabPane.getTabs().add(newTab);
             tabPane.getSelectionModel().select(newTab);
         });
         
-        HBox hbox = new HBox();
+        hbox = new HBox();
         HBox.setHgrow(urlField, Priority.ALWAYS);
         hbox.setStyle("-fx-padding: 10px;-fx-alignment: baseline-center;");
         hbox.getChildren().addAll(newTabBtn, urlField, searchLabel, searchField);
         
-        BorderPane bPane = new BorderPane();
+        bPane = new BorderPane();
         bPane.setTop(hbox);
         bPane.setCenter(tabWebView);
         setContent(bPane);
         setClosable(true);
+        setOnClosed((event) -> {onTabClosed();});
+    }
+    
+    private void onTabClosed(){
+        tabWebView.getEngine().load(null);
+        System.gc();
     }
 }

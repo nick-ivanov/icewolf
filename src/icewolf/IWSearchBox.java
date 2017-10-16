@@ -25,7 +25,7 @@ import javafx.scene.web.WebView;
  */
 public class IWSearchBox extends TextField {
 
-    private WebView webView;
+    private final WebView webView;
     private int searchProvider;
     private String[] providerArray = {
         "http://www.google.com/search?q=", //Google
