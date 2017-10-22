@@ -37,6 +37,8 @@ public class IWMenuBar extends MenuBar {
 	final Menu help_menu = new Menu("Help");
 	
         final MenuItem sample_module = new MenuItem("Sample Module");
+        final MenuItem settings_module = new MenuItem("Settings Module");
+
 	final MenuItem quit_item = new MenuItem("Quit");
         
 	final MenuItem manual_item = new MenuItem("Manual");
@@ -47,7 +49,7 @@ public class IWMenuBar extends MenuBar {
                 //this.searchTextField = searchTextField;
                 //this.webView = webView;
                 
-		main_menu.getItems().addAll(sample_module, quit_item);
+		main_menu.getItems().addAll(sample_module, settings_module, quit_item);
 		help_menu.getItems().addAll(manual_item, about_item);
 		this.getMenus().addAll(main_menu, help_menu);
 		
@@ -85,7 +87,11 @@ public class IWMenuBar extends MenuBar {
                                 
                                 if(name.equals("Sample Module")) {
                                     IWSampleModule sampleModule = new IWSampleModule(stage, urlTextField, searchTextField, webView);
-                                }				
+                                }
+                                
+                                if(name.equals("Settings Module")) {
+                                    IWSettingsModule settingsModule = new IWSettingsModule(stage, urlTextField, searchTextField, webView);
+                                }
 			}
 		};
 		
@@ -93,5 +99,6 @@ public class IWMenuBar extends MenuBar {
 		manual_item.setOnAction(MEHandler);
 		about_item.setOnAction(MEHandler);
                 sample_module.setOnAction(MEHandler);
+                settings_module.setOnAction(MEHandler);
 	}
 }
