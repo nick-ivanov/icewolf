@@ -28,8 +28,8 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.concurrent.Worker;
 
 public class IWInternetTab extends Tab {
 
@@ -58,6 +58,12 @@ public class IWInternetTab extends Tab {
         urlField.setText(webAddress);
         urlField.loadPage();
         urlField.setStyle("-fx-pref-width: 300");
+        
+         tabWebView.getEngine().getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
+            if (Worker.State.SUCCEEDED.equals(newValue)) {
+                urlField.setText(tabWebView.getEngine().getLocation());
+            }
+        });
         
         newTabBtn = new Button("New Tab");
         newTabBtn.setOnAction((ActionEvent event) -> {
