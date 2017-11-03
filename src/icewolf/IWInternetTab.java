@@ -121,8 +121,10 @@ public class IWInternetTab extends Tab
                 {
                     fileName = pageURL.substring(pageURL.lastIndexOf("/") + 1,pageURL.length());
                 }
-                if(contentLength > 0)
+                //System.out.println(contentType);
+                if(!contentType.contains("text") && fileName.contains("."))
                 {
+                    // System.out.println(contentType);
                     // Download File
                     File file = new File(System.getProperty("user.home") + "/Downloads/IWDownloads/");
                     try 

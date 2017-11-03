@@ -117,11 +117,6 @@ public class IWDownloadBox
             {
                 dwnldSrvc.stopDownload();
                 dwnldSrvc.cancel();
-                File downloadedFile = new File(filePath.getAbsolutePath() + File.separator + fileName);
-                if(downloadedFile.exists())
-                {
-                    downloadedFile.delete();
-                }
                 System.out.println("Download Stopped.");
             }
         }); 
