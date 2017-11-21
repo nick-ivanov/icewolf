@@ -29,6 +29,25 @@ public class Icewolf extends Application
     public void start(Stage primaryStage) 
     {
         IWDatabaseHelper dbHelper = new IWDatabaseHelper();
+        
+        String category = dbHelper.addBookmarkCategory("Fun");
+        dbHelper.addBookmarkCategory("Sran");
+        
+        System.out.println(dbHelper.getAllBookmarkCategories().toString());
+        
+        dbHelper.addBookmark("Google", "http://google.com", category);
+        dbHelper.addBookmark("Twitter", "http://twitter.com", category);
+        
+        dbHelper.deleteCategoryWithBookmarks(category);
+        
+        System.out.println(dbHelper.getAllBookmarks().toString());
+        System.out.println(dbHelper.getBookmarksInCategory(category).toString());
+
+                
+        dbHelper.updateSetting("foo", "car");
+        
+        System.out.println(dbHelper.getSetting("foo"));
+        
         IWMenuBar menuBar = new IWMenuBar(primaryStage);
         IWInternetTab iTab = new IWInternetTab(IWPropertyHelper.getProperty("default_homepage"), tabPane);
         tabPane.getTabs().add(iTab);
