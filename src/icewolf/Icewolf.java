@@ -28,6 +28,7 @@ public class Icewolf extends Application
     @Override
     public void start(Stage primaryStage) 
     {
+        IWDatabaseHelper dbHelper = new IWDatabaseHelper();
         IWMenuBar menuBar = new IWMenuBar(primaryStage);
         IWInternetTab iTab = new IWInternetTab(IWPropertyHelper.getProperty("default_homepage"), tabPane);
         tabPane.getTabs().add(iTab);
