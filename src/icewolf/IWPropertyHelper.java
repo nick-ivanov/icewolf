@@ -34,6 +34,20 @@ public class IWPropertyHelper {
         return null;
     }
     
+    static String getPropertyWithSpaces(String property, String delimiter) {
+        try {
+            FileReader reader = new FileReader(PROPERTY_FILEPATH);
+            Properties propertiesObj = new Properties();
+            propertiesObj.load(reader);
+            return propertiesObj.getProperty(property).replaceAll(delimiter, "");
+        } catch (Exception ex) {
+            System.out.println("FATAL ERROR: " + ex.getMessage());
+            System.exit(1);
+        }
+        
+        return null;
+    }
+    
     static Set<Entry<Object,Object>> getPropertySet() {
         try {
             FileReader reader = new FileReader(PROPERTY_FILEPATH);

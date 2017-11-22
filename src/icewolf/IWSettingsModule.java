@@ -14,23 +14,20 @@
 
 package icewolf;
 
-import javafx.scene.control.TextField;
-import javafx.scene.web.WebView;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
 import javafx.stage.Stage;
 
-public class IWSettingsModule {
-
-    private Stage stage;
-    private TextField urlTextField;
-    private TextField searchTextField;
-    private WebView webView;
+public class IWSettingsModule extends Tab {
     
-    public IWSettingsModule(Stage stage, TextField urlTextField, TextField searchTextField, WebView webView) {
-        this.stage = stage;
-        this.urlTextField = urlTextField;
-        this.searchTextField = searchTextField;
-        this.webView = webView;
+    public IWSettingsModule(Stage stage) {
         
-        System.out.println("Module SettingsModule has been triggered!");
+        
+        
+        
+        
+        Label label = new Label("Settings");
+        this.setContent(label);
+        this.setText(IWPropertyHelper.getPropertyWithSpaces("settings_tab_text", "`"));        
     }
 }

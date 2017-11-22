@@ -14,7 +14,6 @@
 
 package icewolf;
 
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
@@ -28,38 +27,20 @@ public class Icewolf extends Application
     @Override
     public void start(Stage primaryStage) 
     {
-        IWDatabaseHelper dbHelper = new IWDatabaseHelper();
+        IWSettingsController settings = new IWSettingsController();
         
-        String category = dbHelper.addBookmarkCategory("Fun");
-        dbHelper.addBookmarkCategory("Sran");
-        
-        System.out.println(dbHelper.getAllBookmarkCategories().toString());
-        
-        dbHelper.addBookmark("Google", "http://google.com", category);
-        dbHelper.addBookmark("Twitter", "http://twitter.com", category);
-        
-        dbHelper.deleteCategoryWithBookmarks(category);
-        
-        System.out.println(dbHelper.getAllBookmarks().toString());
-        System.out.println(dbHelper.getBookmarksInCategory(category).toString());
-
-                
-        dbHelper.updateSetting("foo", "car");
-        
-        System.out.println(dbHelper.getSetting("foo"));
-        
-        IWMenuBar menuBar = new IWMenuBar(primaryStage);
+        IWMenuBar menuBar = new IWMenuBar(primaryStage, tabPane);
         IWInternetTab iTab = new IWInternetTab(IWPropertyHelper.getProperty("default_homepage"), tabPane);
         tabPane.getTabs().add(iTab);
         
         VBox vbox = new VBox();
         vbox.setStyle("-fx-padding: 10px;");
         vbox.getChildren().addAll(menuBar, tabPane);
-        Scene scene = new Scene(vbox, 800, 600);
+        Scene scene = new Scene(vbox, settings.getMinimumWidth(), settings.getMinimumHeight());
         
         primaryStage.setTitle(IWPropertyHelper.getProperty("default_window_title"));
-        primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(600);
+        primaryStage.setMinWidth(settings.getMinimumWidth());
+        primaryStage.setMinHeight(settings.getMinimumHeight());
         primaryStage.setScene(scene);
         primaryStage.show();
     }

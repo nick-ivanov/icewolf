@@ -22,6 +22,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -30,21 +32,21 @@ public class IWMenuBar extends MenuBar {
         TextField urlTextField, searchTextField;
         WebView webView;
         
+        TabPane tabPane;
+        
 	final Menu main_menu = new Menu("Menu");
 	final Menu help_menu = new Menu("Help");
 	
         final MenuItem sample_module = new MenuItem("Sample Module");
-        final MenuItem settings_module = new MenuItem("Settings Module");
+        final MenuItem settings_module = new MenuItem("Settings");
 
 	final MenuItem quit_item = new MenuItem("Quit");
         
 	final MenuItem manual_item = new MenuItem("Manual");
 	final MenuItem about_item = new MenuItem("About");
-	public IWMenuBar(Stage stage) {	
-	//public IWMenuBar(Stage stage, TextField urlTextField, TextField searchTextField, WebView webView) {
-                //this.urlTextField = urlTextField;
-                //this.searchTextField = searchTextField;
-                //this.webView = webView;
+        
+	public IWMenuBar(Stage stage, TabPane tabPane) {
+                this.tabPane = tabPane;
                 
 		main_menu.getItems().addAll(sample_module, settings_module, quit_item);
 		help_menu.getItems().addAll(manual_item, about_item);
@@ -85,8 +87,22 @@ public class IWMenuBar extends MenuBar {
                                     IWSampleModule sampleModule = new IWSampleModule(stage, urlTextField, searchTextField, webView);
                                 }
                                 
-                                if(name.equals("Settings Module")) {
-                                    IWSettingsModule settingsModule = new IWSettingsModule(stage, urlTextField, searchTextField, webView);
+                                boolean settingsOpen = false;
+                                
+                                if(name.equals("Settings")) {
+                                    for(Tab tab : tabPane.getTabs()) {
+                                        if(tab.getText().equals(IWPropertyHelper.getPropertyWithSpaces("settings_tab_text", "`"))) {
+                                            settingsOpen = true;
+                                            tabPane.getSelectionModel().select(tab);
+                                        }
+                                    }
+                                    
+                                    if(!settingsOpen) {
+                                        IWSettingsModule settingsModule = new IWSettingsModule(stage);
+                                        tabPane.getTabs().add(settingsModule);
+                                        tabPane.getSelectionModel().select(settingsModule);
+                                    }
+                                    
                                 }
 			}
 		};

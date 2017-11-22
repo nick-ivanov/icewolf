@@ -45,7 +45,7 @@ public class IWDatabaseHelper {
             connection = DriverManager.getConnection("jdbc:sqlite:" + DATABASE_NAME);
             System.out.println("Database connection: SUCCESS!");
         } catch (SQLException ex) {
-            System.err.println("Fatal database problem: " + ex.getMessage());
+            System.err.println("Fatal database problem [connect()]: " + ex.getMessage());
             System.exit(1);
         }
     }
@@ -77,11 +77,14 @@ public class IWDatabaseHelper {
             
             statement.execute(sql);
             
-            addSetting("foo", "bar");
-            addSetting("homepage", "http://smsu.edu/");
+            addSetting("homepage", IWPropertyHelper.getProperty("default_homepage"));
+            addSetting("search_engine", "duckduckgo");
+            addSetting("minimum_width", "800");
+            addSetting("minimum_height", "600");
+            
             addBookmarkCategory("Default");
         } catch (SQLException ex) {
-            System.err.println("Fatal database problem: " + ex.getMessage());
+            System.err.println("Fatal database problem [init()]: " + ex.getMessage());
             System.exit(1);
         }
     }
@@ -97,7 +100,7 @@ public class IWDatabaseHelper {
             
             statement.execute(sql);
         } catch (SQLException ex) {
-            System.err.println("Fatal database problem: " + ex.getMessage());
+            System.err.println("Fatal database problem [addBookmarkCategory()]: " + ex.getMessage());
             System.exit(1);
         }
         
@@ -116,7 +119,7 @@ public class IWDatabaseHelper {
             
             statement.execute(sql);
         } catch (SQLException ex) {
-            System.err.println("Fatal database problem: " + ex.getMessage());
+            System.err.println("Fatal database problem [addBookmark()]: " + ex.getMessage());
             System.exit(1);
         }
         
@@ -132,7 +135,7 @@ public class IWDatabaseHelper {
             
             statement.execute(sql);
         } catch (SQLException ex) {
-            System.err.println("Fatal database problem: " + ex.getMessage());
+            System.err.println("Fatal database problem [updateSetting()]: " + ex.getMessage());
             System.exit(1);
         }        
     }
@@ -146,7 +149,7 @@ public class IWDatabaseHelper {
             
             statement.execute(sql);
         } catch (SQLException ex) {
-            System.err.println("Fatal database problem: " + ex.getMessage());
+            System.err.println("Fatal database problem [addSetting()]: " + ex.getMessage());
             System.exit(1);
         }        
     }
@@ -164,7 +167,7 @@ public class IWDatabaseHelper {
             result.next();
             setting = result.getString(1);
         } catch (SQLException ex) {
-            System.err.println("Fatal database problem: " + ex.getMessage());
+            System.err.println("Fatal database problem [getSetting()]: " + ex.getMessage());
             System.exit(1);
         }
         
@@ -186,7 +189,7 @@ public class IWDatabaseHelper {
             }
             
         } catch (SQLException ex) {
-            System.err.println("Fatal database problem: " + ex.getMessage());
+            System.err.println("Fatal database problem [getAllBookmarkCategories()]: " + ex.getMessage());
             System.exit(1);
         }
         
@@ -206,7 +209,7 @@ public class IWDatabaseHelper {
             }
             
         } catch (SQLException ex) {
-            System.err.println("Fatal database problem: " + ex.getMessage());
+            System.err.println("Fatal database problem [getAllBookmarks()]: " + ex.getMessage());
             System.exit(1);
         }
         
@@ -227,7 +230,7 @@ public class IWDatabaseHelper {
             }
             
         } catch (SQLException ex) {
-            System.err.println("Fatal database problem: " + ex.getMessage());
+            System.err.println("Fatal database problem [getBookmarksInCategory()]: " + ex.getMessage());
             System.exit(1);
         }
         
@@ -241,7 +244,7 @@ public class IWDatabaseHelper {
             
             statement.execute(sql);
         } catch (SQLException ex) {
-            System.err.println("Fatal database problem: " + ex.getMessage());
+            System.err.println("Fatal database problem [deleteBookmark()]: " + ex.getMessage());
             System.exit(1);
         }
     }
@@ -255,7 +258,7 @@ public class IWDatabaseHelper {
             sql = "DELETE FROM bookmark_categories WHERE categoryId='" + id + "';";
             statement.execute(sql);
         } catch (SQLException ex) {
-            System.err.println("Fatal database problem: " + ex.getMessage());
+            System.err.println("Fatal database problem [deleteCategoryWithBookmarks()]: " + ex.getMessage());
             System.exit(1);
         }
     }
