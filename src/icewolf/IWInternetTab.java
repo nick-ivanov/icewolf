@@ -44,31 +44,38 @@ public class IWInternetTab extends Tab
     
     public IWInternetTab(String webAddress, TabPane tabPane) 
     {
+        
         searchLabel = new Label("Search: ");
     
         tabWebView = new WebView();
-        textProperty().bind(tabWebView.getEngine().titleProperty());
+        //textProperty().bind(tabWebView.getEngine().titleProperty());
+        this.setText("Empty Tab");
+
         tabWebView.setStyle("-fx-pref-width: 780; -fx-pref-height: 1530;");
         
         searchField = new IWSearchBox(tabWebView, 0);
         searchField.setOnAction((event) -> {searchField.search();});
         searchField.setStyle("-fx-pref-width: 260");
         
-        urlField = new IWURLField(tabWebView, false);
-        urlField.setOnAction((event) -> {urlField.loadPage();});
+        urlField = new IWURLField(tabWebView, false, this);
+
+        urlField.setOnAction((event) -> { urlField.loadPage(); });
+
         urlField.setText(webAddress);
+
         urlField.loadPage();
-        urlField.setStyle("-fx-pref-width: 300");
         
+        
+        urlField.setStyle("-fx-pref-width: 300");
         
         tabWebView.getEngine().locationProperty().addListener((observable, oldURL, newURL) -> 
         {
             urlField.setText(newURL);
-            downloadFileIfAvailable(urlField.getText());
-            
+            downloadFileIfAvailable(urlField.getText());          
         });
                 
         newTabBtn = new Button("New Tab");
+        
         newTabBtn.setOnAction((ActionEvent event) -> {
             Tab newTab = new IWInternetTab("www.smsu.edu", tabPane);
             tabPane.getTabs().add(newTab);
@@ -150,7 +157,8 @@ public class IWInternetTab extends Tab
         }
         catch(Exception e)
         {
-            
+            System.err.println("Exception happened: " + e.getMessage());
+            setText("Page cannot be loaded");
         }
     }
     

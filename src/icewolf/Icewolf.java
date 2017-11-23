@@ -28,9 +28,20 @@ public class Icewolf extends Application
     public void start(Stage primaryStage) 
     {
         IWSettingsController settings = new IWSettingsController();
-        
         IWMenuBar menuBar = new IWMenuBar(primaryStage, tabPane);
-        IWInternetTab iTab = new IWInternetTab(IWPropertyHelper.getProperty("default_homepage"), tabPane);
+
+        IWInternetTab iTab;
+        
+        String actualPage = "";
+        
+        if(settings.getUseHomepage()) {
+            System.out.println("use homepage");
+            actualPage = settings.getHomepage();
+        } else {
+            System.out.println("dont use homepage");
+        }
+        
+        iTab = new IWInternetTab(actualPage, tabPane);
         tabPane.getTabs().add(iTab);
         
         VBox vbox = new VBox();

@@ -14,6 +14,10 @@
 
 package icewolf;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker.State;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
 
@@ -24,12 +28,36 @@ import javafx.scene.web.WebView;
 public class IWURLField extends TextField {
 
     private WebView webView;
+    private Tab tab;
     private boolean securedHTTP; //If true, use HTTPS on web URL's
     
-    public IWURLField(WebView webView, boolean secured) {
+    public IWURLField(WebView webView, boolean secured, Tab tab) {
         this.webView = webView;
+        this.tab = tab;
         this.securedHTTP = secured;
         setText(IWPropertyHelper.getProperty("default_homepage"));
+        
+        webView.getEngine().getLoadWorker().stateProperty().addListener(
+        new ChangeListener<State>() {
+            @Override
+            public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
+                if (newValue == State.SUCCEEDED) {
+                    tab.setText(webView.getEngine().getTitle());
+                }
+                
+                if (newValue == State.FAILED) {
+                    if(getText().toString().equals("")) {
+                        webView.getEngine().loadContent("<html><title>Empty Tab</title><body></body></html>");
+                    } else {
+                        webView.getEngine().loadContent("<html><title>Oops!</title><body><b>Page not found!</b></body></html>");
+                    }
+                }
+            }
+        });
+        
+        
+        
+        
     }
     
     public void setSecured(boolean newStatus){
@@ -40,13 +68,34 @@ public class IWURLField extends TextField {
     {
         if(securedHTTP)
         {
+            try {
             webView.getEngine().load(java.net.URI.create
                 ("https://" + getText()).toString());
+
+            } catch (Exception ex) {
+                System.out.println("gotcha: " + ex.getMessage());
+                
+                if(getText().toString().equals("")) {
+                    webView.getEngine().loadContent("<html><title>Empty Tab</title><body></body></html>");
+                } else {
+                    webView.getEngine().loadContent("<html><title>Oops!</title><body><b>Page not found!</b></body></html>");
+                }
+            }
         }
         else
         {
+            try {
             webView.getEngine().load(java.net.URI.create
                 ("http://" + getText()).toString());
+
+            } catch (Exception ex) {
+                System.out.println("gotcha: " + ex.getMessage());
+                
+                if(getText().toString().equals("")) {
+                    webView.getEngine().loadContent("<html><title>Empty Tab</title><body></body></html>");
+                } else {
+                    webView.getEngine().loadContent("<html><title>Oops!</title><body><b>Page not found!</b></body></html>");
+                }            }
         }
     }
 }

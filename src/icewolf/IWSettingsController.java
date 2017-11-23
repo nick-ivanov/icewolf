@@ -52,4 +52,25 @@ public class IWSettingsController {
     public void setHomepage(String url) {
         dbHelper.updateSetting("homepage", url);
     }
+    
+    public void setUseHomepage(boolean value) {
+        if(value) {
+            dbHelper.updateSetting("use_homepage", "true");
+        } else {
+            dbHelper.updateSetting("use_homepage", "false");
+        }
+    }
+    
+    public boolean getUseHomepage() {
+        if(dbHelper.getSetting("use_homepage").equals("true")) {
+            return true;
+        } else if (dbHelper.getSetting("use_homepage").equals("false")) {
+            return false;
+        } else {
+            System.err.println("Fatal error [getUseHomepage()]");
+            System.exit(1);
+        }
+        
+        return false;
+    }
 }

@@ -98,7 +98,7 @@ public class IWMenuBar extends MenuBar {
                                     }
                                     
                                     if(!settingsOpen) {
-                                        IWSettingsModule settingsModule = new IWSettingsModule(stage);
+                                        IWSettingsModule settingsModule = new IWSettingsModule(stage, tabPane);
                                         tabPane.getTabs().add(settingsModule);
                                         tabPane.getSelectionModel().select(settingsModule);
                                     }

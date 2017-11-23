@@ -78,9 +78,10 @@ public class IWDatabaseHelper {
             statement.execute(sql);
             
             addSetting("homepage", IWPropertyHelper.getProperty("default_homepage"));
-            addSetting("search_engine", "duckduckgo");
+            addSetting("search_engine", "Bing");
             addSetting("minimum_width", "800");
             addSetting("minimum_height", "600");
+            addSetting("use_homepage", "true");
             
             addBookmarkCategory("Default");
         } catch (SQLException ex) {
