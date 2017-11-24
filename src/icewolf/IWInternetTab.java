@@ -64,8 +64,7 @@ public class IWInternetTab extends Tab
         urlField.setText(webAddress);
 
         urlField.loadPage();
-        
-        
+       
         urlField.setStyle("-fx-pref-width: 300");
         
         tabWebView.getEngine().locationProperty().addListener((observable, oldURL, newURL) -> 

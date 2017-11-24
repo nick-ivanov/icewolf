@@ -39,6 +39,7 @@ public class IWMenuBar extends MenuBar {
 	
         final MenuItem sample_module = new MenuItem("Sample Module");
         final MenuItem settings_module = new MenuItem("Settings");
+        final MenuItem bookmarks_module = new MenuItem("Bookmarks");
 
 	final MenuItem quit_item = new MenuItem("Quit");
         
@@ -48,7 +49,7 @@ public class IWMenuBar extends MenuBar {
 	public IWMenuBar(Stage stage, TabPane tabPane) {
                 this.tabPane = tabPane;
                 
-		main_menu.getItems().addAll(sample_module, settings_module, quit_item);
+		main_menu.getItems().addAll(sample_module, settings_module, bookmarks_module, quit_item);
 		help_menu.getItems().addAll(manual_item, about_item);
 		this.getMenus().addAll(main_menu, help_menu);
 		
@@ -104,6 +105,24 @@ public class IWMenuBar extends MenuBar {
                                     }
                                     
                                 }
+                                
+                                boolean bookmarksOpen = false;
+                                
+                                if(name.equals("Bookmarks")) {
+                                    for(Tab tab : tabPane.getTabs()) {
+                                        if(tab.getText().equals(IWPropertyHelper.getPropertyWithSpaces("bookmarks_tab_text", "`"))) {
+                                            bookmarksOpen = true;
+                                            tabPane.getSelectionModel().select(tab);
+                                        }
+                                    }
+                                    
+                                    if(!bookmarksOpen) {
+                                        IWBookmarksModule bookmarksModule = new IWBookmarksModule(stage, tabPane);
+                                        tabPane.getTabs().add(bookmarksModule);
+                                        tabPane.getSelectionModel().select(bookmarksModule);
+                                    }
+                                    
+                                }
 			}
 		};
 		
@@ -112,5 +131,6 @@ public class IWMenuBar extends MenuBar {
 		about_item.setOnAction(MEHandler);
                 sample_module.setOnAction(MEHandler);
                 settings_module.setOnAction(MEHandler);
+                bookmarks_module.setOnAction(MEHandler);
 	}
 }
