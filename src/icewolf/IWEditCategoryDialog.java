@@ -33,16 +33,26 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class IWNewCategoryDialog {
+public class IWEditCategoryDialog {
     private ListView listView;
+    private String id;
+    private int index;
     private HashMap<Integer,String> hm;
 
-    public IWNewCategoryDialog(ListView lv, HashMap<Integer,String> hm) {
+    public IWEditCategoryDialog(ListView lv, String id, int index, HashMap<Integer,String> hm) {
         this.listView = lv;
-        this.hm = hm;
+        this.id = id;
+        this.index = index;
+        this.hm = new HashMap<>();
     }
    
     public void go() {
+        updateBookmarkCategories();
+        
+        System.out.println("index: " + index);
+        System.out.println("id: " + hm.get(index));
+        
+        
         final Stage dialog = new Stage();
         dialog.setTitle("Create new bookmark category");
 
@@ -64,18 +74,19 @@ public class IWNewCategoryDialog {
         hbox2.setSpacing(15);
         hbox2.setAlignment(Pos.BASELINE_CENTER);
         
-        Label title = new Label("Create new bookmark category");
+        Label title = new Label("Edit category");
         title.setFont(new Font(24));
         
         Label label1 = new Label("Category name:");
         TextField categoryNameTextInput = new TextField();
+        categoryNameTextInput.setText(listView.getItems().get(index).toString());
         
-        Button addButton = new Button("Add Category");
-        addButton.setDisable(true);
+        Button submitButton = new Button("Submit");
+        submitButton.setDisable(true);
         Button cancelButton = new Button("Cancel");
         
         hbox1.getChildren().addAll(label1, categoryNameTextInput);
-        hbox2.getChildren().addAll(addButton, cancelButton);
+        hbox2.getChildren().addAll(submitButton, cancelButton);
         
         vbox.getChildren().addAll(title, hbox1, hbox2);
              
@@ -86,20 +97,21 @@ public class IWNewCategoryDialog {
             @Override
             public void handle(Event event) {
                 if(!categoryNameTextInput.getText().equals("")) {
-                    addButton.setDisable(false);
+                    submitButton.setDisable(false);
                 } else {
-                    addButton.setDisable(true);
+                    submitButton.setDisable(true);
                 }
             }
         });
                
-        addButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+        submitButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent e) {
                         System.out.println("data: " + categoryNameTextInput.getText());
+                        System.out.println("id: " + id);
                         IWDatabaseHelper dbHelper = new IWDatabaseHelper();
-                        dbHelper.addBookmarkCategory(categoryNameTextInput.getText());
+                        dbHelper.updateBookmarkCategory(id, categoryNameTextInput.getText());
                         updateBookmarkCategories();
                         dialog.close();
                     }
@@ -123,11 +135,16 @@ public class IWNewCategoryDialog {
         IWDatabaseHelper dbHelper = new IWDatabaseHelper();
         
         listView.getItems().clear();
+        hm.clear();
         int i = 0;
         for (IWBookmarkCategory cat : dbHelper.getAllBookmarkCategories()) {
+            System.out.println("i: " + i);
             listView.getItems().add(cat.getName());
             hm.put(i, cat.getId());
             i++;
         }
+        
+        System.out.println("hm.size(): " + hm.size());
+        System.out.println("listView.getItems().size()" + listView.getItems().size());
     }    
 }

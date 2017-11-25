@@ -120,6 +120,48 @@ public class IWDatabaseHelper {
         disconnect();
         return categoryId;
     }
+    
+    public String updateBookmarkCategory(String id, String name) {
+        connect();
+        String categoryId = java.util.UUID.randomUUID().toString();
+
+        try {
+            Statement statement = connection.createStatement();
+
+            String sql = "UPDATE bookmark_categories SET "
+                    + "categoryName='" + name + "' WHERE "
+                    + "categoryId='" + id + "';";
+
+            statement.execute(sql);
+        } catch (SQLException ex) {
+            System.err.println("Fatal database problem [updateBookmarkCategory()]: " + ex.getMessage());
+            System.exit(1);
+        }
+
+        disconnect();
+        return categoryId;
+    }
+    
+    public String updateBookmark(String id, String name, String url) {
+        connect();
+        String categoryId = java.util.UUID.randomUUID().toString();
+
+        try {
+            Statement statement = connection.createStatement();
+
+            String sql = "UPDATE bookmarks SET "
+                    + "bookmarkName='" + name + "', bookmarkUrl='" + url + "' WHERE "
+                    + "bookmarkId='" + id + "';";
+
+            statement.execute(sql);
+        } catch (SQLException ex) {
+            System.err.println("Fatal database problem [updateBookmarkCategory()]: " + ex.getMessage());
+            System.exit(1);
+        }
+
+        disconnect();
+        return categoryId;
+    }
 
     public String addBookmark(String name, String url, String category) {
         connect();
