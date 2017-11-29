@@ -74,6 +74,6 @@ public class IWPropertyHelperTest {
     
     @Test
     public void testNumberOfProperties() {
-        assertEquals(IWPropertyHelper.getPropertySet().size(), 4);
+        assertEquals(IWPropertyHelper.getPropertySet().size(), 6);
     }
 }
