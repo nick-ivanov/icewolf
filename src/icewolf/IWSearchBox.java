@@ -14,6 +14,7 @@
 
 package icewolf;
 
+import java.util.HashMap;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
 /**
@@ -29,13 +30,24 @@ public class IWSearchBox extends TextField {
         "http://search.yahoo.com/search;_ylt=A0oG7l7PeB5P3G0AKASl87UF?p=",//Yahoo
         "http://www.bing.com/search?q=", //Bing
         "http://duckduckgo.com/html?q=", //DuckDuckGo
-        "http://archive.org/search.php?query=" //Internet Archive
+        "http://archive.org/search.php?query=", //Internet Archive
+        "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords="
         //More search engine URL's can be added later
     };
     
+    
+    private final HashMap<String, String> searchUrls = new HashMap();
+    
     public IWSearchBox(WebView webView, int searchProvider) {
         this.webView = webView;
-        this.searchProvider = searchProvider;
+        this.searchProvider = searchProvider;        
+        
+        searchUrls.put("Google", providerArray[0]);
+        searchUrls.put("Yahoo", providerArray[1]);
+        searchUrls.put("Bing", providerArray[2]);
+        searchUrls.put("DuckDuckGo", providerArray[3]);
+        searchUrls.put("Internet Archive", providerArray[4]);
+        searchUrls.put("Amazon", providerArray[5]);
     }
     
     public void changeSearchProvider(int newProvider){
@@ -43,7 +55,11 @@ public class IWSearchBox extends TextField {
     }
     
     public void search(){
-        String rawSearch = providerArray[searchProvider] + this.getText().toString();
+        IWSettingsController controller = new IWSettingsController();        
+        String engine = controller.getSearchEngine();
+
+        //String rawSearch = providerArray[searchProvider] + this.getText().toString();
+        String rawSearch = searchUrls.get(engine) + this.getText().toString();
         webView.getEngine().load(rawSearch.replaceAll("\\s","+"));
     }
 }
