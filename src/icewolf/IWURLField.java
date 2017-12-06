@@ -54,10 +54,6 @@ public class IWURLField extends TextField {
                 }
             }
         });
-        
-        
-        
-        
     }
     
     public void setSecured(boolean newStatus){

@@ -78,7 +78,7 @@ public class IWInternetTab extends Tab
             tabPane.getSelectionModel().select(newTab);
         });
         
-        hbox = new HBox();
+        hbox = new HBox(6);
         HBox.setHgrow(urlField, Priority.ALWAYS);
         hbox.setStyle("-fx-padding: 10px;-fx-alignment: baseline-center;");
         hbox.getChildren().addAll(newTabBtn, urlField, searchLabel, searchField);
