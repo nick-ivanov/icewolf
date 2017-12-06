@@ -100,6 +100,7 @@ public class IWDownloadBox
             @Override
             public void handle(ActionEvent e) 
             {
+                IWApplicationHelper.getInstance().getUrlQueue().remove(fileName);
                 fileProgressLabel.setVisible(true);
                 progressIndicator.setVisible(true);
                 dwnldBtn.setVisible(false);
@@ -116,6 +117,7 @@ public class IWDownloadBox
         {
             public void handle(WindowEvent we) 
             {
+                IWApplicationHelper.getInstance().getUrlQueue().remove(fileName);
                 dwnldSrvc.stopDownload();
                 dwnldSrvc.cancel();
                 System.out.println("Download Stopped.");

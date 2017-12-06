@@ -11,10 +11,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-/**
- *
- * @author gbowen
- */
+
 package icewolf;
 
 import java.io.File;
@@ -110,54 +107,94 @@ public class IWInternetTab extends Tab
             InputStream inputStream;
             httpConn = (HttpURLConnection) url.openConnection();
             int responseCode = httpConn.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK)
+            if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_FORBIDDEN)
             {
-                String disposition = httpConn.getHeaderField("Content-Disposition");
-                String contentType = httpConn.getContentType();
+                
                 contentLength = httpConn.getContentLength();
+                if(contentLength == -1)
+                {
+                    httpConn.disconnect();
+                    return;
+                }
+                String contentType = httpConn.getContentType();
+                if(contentType.contains("text/html"))
+                {
+                    httpConn.disconnect();
+                    return;
+                }
+                String disposition = httpConn.getHeaderField("Content-Disposition");
                 if (disposition != null) 
                 {
+                    System.out.println("Dis = " + disposition);
                     int index = disposition.indexOf("filename=");
                     if (index > 0) 
                     {
-                        fileName = disposition.substring(index + 10, disposition.length() - 1);
+                        fileName = "";
+                        
+                        for(int i=index+9; i<disposition.length();i++)
+                        {
+                            if(disposition.charAt(i)==';')
+                            {
+                                break;
+                            }
+                            else if(disposition.charAt(i)!='"')
+                            {
+                                fileName += disposition.charAt(i);
+                            }    
+                        }
                     }
-                } 
-                else 
+                }
+                else
                 {
                     fileName = pageURL.substring(pageURL.lastIndexOf("/") + 1,pageURL.length());
                 }
-                //System.out.println(contentType);
-                if(!contentType.contains("text") && fileName.contains("."))
+                if(Math.abs(fileName.lastIndexOf(".") - fileName.length())> 4)
                 {
+                    httpConn.disconnect();
+                    return;
+                }
+                if (!IWApplicationHelper.getInstance().getUrlQueue().contains(fileName)
+                        && !contentType.contains("text") && fileName.contains(".") && contentLength > 1) 
+                {
+                    IWApplicationHelper.getInstance().getUrlQueue().add(fileName);
                     // System.out.println(contentType);
                     // Download File
                     File file = new File(System.getProperty("user.home") + "/Downloads/IWDownloads/");
                     try 
                     {
-                        if(!file.exists()) 
+                        if (!file.exists()) 
                         {
                             file.mkdir();
                         }
                         File download = new File(file + "/" + fileName);
-                        inputStream = httpConn.getInputStream();
+                        inputStream = responseCode == 200 ? httpConn.getInputStream() : httpConn.getErrorStream();
+
                         new IWDownloadBox(url, contentLength, file, fileName, inputStream);
-                    } 
-                    catch(Exception e) 
+                    }
+                    catch (Exception e) 
                     {
                         e.printStackTrace();
                     }
-                }
-                else
+                } 
+                else 
                 {
                     httpConn.disconnect();
                 }
             }
+            else
+            {
+                System.out.println("Response is " + responseCode);
+            }
+                /*else 
+                {
+                    fileName = pageURL.substring(pageURL.lastIndexOf("/") + 1,pageURL.length());
+                }*/
+                //System.out.println(contentType);
+                
         }
         catch(Exception e)
         {
-            System.err.println("Exception happened: " + e.getMessage());
-            setText("Page cannot be loaded");
+            
         }
     }
     
