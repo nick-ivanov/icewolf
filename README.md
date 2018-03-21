@@ -7,13 +7,13 @@ Nick, Greg, Dylan.
 
 # To-Do
 
-- [] Add Bookmarks Button (default category)
-- [] Add Back and Forward Buttons
-- [] Add Suggest a Feature Button
-- [] Add Browsing History (SQL Lite DB)
+- [ ] Add Bookmarks Button (default category)
+- [ ] Add Back and Forward Buttons
+- [ ] Add Suggest a Feature Button
+- [ ] Add Browsing History (SQL Lite DB)
 
 # Next
 
-- [] Localization (e.g. Chinese, Dutch, Farsi, German, Japanese, Norwegian, Klingon, Russian, Spanish)
-- [] Closing Final Tab - Exit the program, or open the homepage
-- [] Create a .JAR file with portable JRE to run Icewolf browser on USB devices
+- [ ] Localization (e.g. Chinese, Dutch, Farsi, German, Japanese, Norwegian, Klingon, Russian, Spanish)
+- [ ] Closing Final Tab - Exit the program, or open the homepage
+- [ ] Create a .JAR file with portable JRE to run Icewolf browser on USB devices
