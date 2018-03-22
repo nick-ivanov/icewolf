@@ -9,8 +9,9 @@ Nick, Greg, Dylan.
 
 - [ ] Add Bookmarks Button (default category)
 - [ ] Add Back and Forward Buttons
+- [ ] Add Downloads Button
 - [ ] Add Suggest a Feature Button
-- [ ] Add Browsing History (SQL Lite DB)
+- [ ] Add Browsing History (SQLite DB)
 
 # Next
 
