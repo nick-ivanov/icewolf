@@ -4,17 +4,3 @@ Icewolf is an open-source lightweight easily-configurable web-browser implemente
 
 Sincerely yours,
 Nick, Greg, Dylan.
-
-# To-Do
-
-- [ ] Add Bookmarks Button (default category)
-- [ ] Add Back and Forward Buttons
-- [ ] Add Downloads Button
-- [ ] Add Suggest a Feature Button
-- [ ] Add Browsing History (SQLite DB)
-
-# Next
-
-- [ ] Localization (e.g. Chinese, Dutch, Farsi, German, Japanese, Norwegian, Klingon, Russian, Spanish)
-- [ ] Closing Final Tab - Exit the program, or open the homepage
-- [ ] Create a .JAR file with portable JRE to run Icewolf browser on USB devices
